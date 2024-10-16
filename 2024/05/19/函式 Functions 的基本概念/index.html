@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/sklylerblog/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/sklylerblog/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/sklylerblog/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/sklylerblog/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/sklylerblog/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"skylerchou.github.io","root":"/sklylerblog/","images":"/sklylerblog/images","scheme":"Gemini","darkmode":true,"version":"8.20.0","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/sklylerblog/js/config.js"></script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-C741HXHTCF"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-C741HXHTCF');
+</script>
+    <meta name="description" content="函式是物件的一種 除了基本型別以外的都是物件 (Object)  當我們透過 typeof 去檢查一個「函式 (function) 」的時候，雖然你會得到 “function” 的結果，讓你以為 function 也是 JavaScript 定義的一種型別，但實際上它仍屬於 Object 的一種。 你可以把它想像成是一種可以被呼叫 (be invoked) 的特殊物件 (值)。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="函式 Functions 的基本概念">
+<meta property="og:url" content="https://skylerchou.github.io/sklylerblog/2024/05/19/%E5%87%BD%E5%BC%8F%20Functions%20%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/index.html">
+<meta property="og:site_name" content="網頁開發五四三">
+<meta property="og:description" content="函式是物件的一種 除了基本型別以外的都是物件 (Object)  當我們透過 typeof 去檢查一個「函式 (function) 」的時候，雖然你會得到 “function” 的結果，讓你以為 function 也是 JavaScript 定義的一種型別，但實際上它仍屬於 Object 的一種。 你可以把它想像成是一種可以被呼叫 (be invoked) 的特殊物件 (值)。">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2024-05-19T15:45:21.647Z">
+<meta property="article:modified_time" content="2024-05-19T19:10:57.901Z">
+<meta property="article:author" content="Skyler Chou">
+<meta property="article:tag" content="JavaScript">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://skylerchou.github.io/sklylerblog/2024/05/19/%E5%87%BD%E5%BC%8F%20Functions%20%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://skylerchou.github.io/sklylerblog/2024/05/19/%E5%87%BD%E5%BC%8F%20Functions%20%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/","path":"2024/05/19/函式 Functions 的基本概念/","title":"函式 Functions 的基本概念"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>函式 Functions 的基本概念 | 網頁開發五四三 - Skyler's  blog</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-C741HXHTCF"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-C741HXHTCF","only_pageview":false,"measure_protocol_api_secret":null}</script>
+  <script src="/sklylerblog/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/sklylerblog/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/sklylerblog/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">網頁開發五四三</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Skyler's  blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/sklylerblog/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/sklylerblog/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%BD%E5%BC%8F%E6%98%AF%E7%89%A9%E4%BB%B6%E7%9A%84%E4%B8%80%E7%A8%AE"><span class="nav-number">1.</span> <span class="nav-text">函式是物件的一種</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9A%E7%BE%A9%E5%87%BD%E5%BC%8F%E7%9A%84%E6%96%B9%E5%BC%8F"><span class="nav-number">2.</span> <span class="nav-text">定義函式的方式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%BD%E5%BC%8F%E5%AE%A3%E5%91%8A%EF%BC%88Function-Declaration%EF%BC%89"><span class="nav-number">2.1.</span> <span class="nav-text">函式宣告（Function Declaration）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%BD%E5%BC%8F%E9%81%8B%E7%AE%97%E5%BC%8F%EF%BC%88Function-Expressions%EF%BC%89"><span class="nav-number">2.2.</span> <span class="nav-text">函式運算式（Function Expressions）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B2%92%E6%9C%89%E5%90%8D%E5%AD%97%E7%9A%84%E5%87%BD%E5%BC%8F%EF%BC%9F"><span class="nav-number">2.2.1.</span> <span class="nav-text">沒有名字的函式？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9C%A8%E5%87%BD%E5%BC%8F%E9%81%8B%E7%AE%97%E5%BC%8F%E4%B8%AD%EF%BC%8C%E5%A6%82%E6%9E%9C%E6%83%B3%E8%A6%81%E5%9C%A8-function-%E5%BE%8C%E9%9D%A2%E5%8A%A0%E4%B8%8A%E4%B8%80%E5%80%8B%E5%90%8D%E5%AD%97%E6%98%AF%E5%8F%AF%E4%BB%A5%E7%9A%84%E5%97%8E%EF%BC%9F"><span class="nav-number">2.2.2.</span> <span class="nav-text">在函式運算式中，如果想要在 function 後面加上一個名字是可以的嗎？</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%8F%E9%81%8E-new-Function-%E9%97%9C%E9%8D%B5%E5%AD%97%E5%BB%BA%E7%AB%8B%E5%87%BD%E5%BC%8F"><span class="nav-number">2.3.</span> <span class="nav-text">透過 new Function 關鍵字建立函式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%8A%E6%95%B8%E7%9A%84%E6%9C%89%E6%95%88%E7%AF%84%E5%9C%8D-Scope"><span class="nav-number">3.</span> <span class="nav-text">變數的有效範圍 (Scope)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%A3%E5%91%8A%E5%BC%8F-v-s-%E8%A1%A8%E9%81%94%E5%BC%8F%EF%BC%9A%E5%91%BD%E5%90%8D%E8%88%87-Hoisiting"><span class="nav-number">4.</span> <span class="nav-text">宣告式 v.s. 表達式：命名與 Hoisiting</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%BD%E5%BC%8F%E7%9A%84-name-%E5%B1%AC%E6%80%A7"><span class="nav-number">4.1.</span> <span class="nav-text">函式的 name 屬性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%BD%E5%BC%8F%E7%9A%84-Hoisting"><span class="nav-number">4.2.</span> <span class="nav-text">函式的 Hoisting</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="nav-number">5.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Skyler Chou"
+      src="/sklylerblog/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Skyler Chou</p>
+  <div class="site-description" itemprop="description">非本科轉職，擁有4年前端開發經驗，這是我的技術筆記</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/sklylerblog/archives/">
+          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/sklylerblog/categories/">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/sklylerblog/tags/">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://www.linkedin.com/in/skylerchou/" title="Linkedin → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;skylerchou&#x2F;" rel="noopener me" target="_blank"><i class="fab fa-linkedin fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/SkylerChou" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;SkylerChou" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+  </div>
+  <div class="cc-license animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdnjs.cloudflare.com/ajax/libs/creativecommons-vocabulary/2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
+  </div>
+
+        </div>
+      </div>
+        <div class="back-to-top animated" role="button" aria-label="回到頂端">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+
+    
+        <div class="pjax">
+        </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://skylerchou.github.io/sklylerblog/2024/05/19/%E5%87%BD%E5%BC%8F%20Functions%20%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/sklylerblog/images/avatar.jpg">
+      <meta itemprop="name" content="Skyler Chou">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="網頁開發五四三">
+      <meta itemprop="description" content="非本科轉職，擁有4年前端開發經驗，這是我的技術筆記">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="函式 Functions 的基本概念 | 網頁開發五四三">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          函式 Functions 的基本概念
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2024-05-19 23:45:21" itemprop="dateCreated datePublished" datetime="2024-05-19T23:45:21+08:00">2024-05-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2024-05-20 03:10:57" itemprop="dateModified" datetime="2024-05-20T03:10:57+08:00">2024-05-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/sklylerblog/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/sklylerblog/2024/05/19/%E5%87%BD%E5%BC%8F%20Functions%20%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2024/05/19/函式 Functions 的基本概念/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="文章字數">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">文章字數：</span>
+      <span>3.4k</span>
+    </span>
+    <span class="post-meta-item" title="所需閱讀時間">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">所需閱讀時間 &asymp;</span>
+      <span>3 分鐘</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="函式是物件的一種"><a href="#函式是物件的一種" class="headerlink" title="函式是物件的一種"></a>函式是物件的一種</h2><blockquote>
+<p>除了基本型別以外的都是物件 (Object)</p>
+</blockquote>
+<p>當我們透過 <strong>typeof</strong> 去檢查一個「函式 (function) 」的時候，雖然你會得到 <strong>“function”</strong> 的結果，讓你以為 function 也是 JavaScript 定義的一種型別，但實際上它仍屬於 <strong>Object</strong> 的一種。</p>
+<p>你可以把它想像成是一種可以被呼叫 (be invoked) 的特殊物件 (值)。</p>
+ <span id="more"></span>
+
+<h2 id="定義函式的方式"><a href="#定義函式的方式" class="headerlink" title="定義函式的方式"></a>定義函式的方式</h2><ul>
+<li>函式宣告（Function Declaration）</li>
+<li>函式運算式（Function Expressions）</li>
+<li>透過 new Function 關鍵字建立函式</li>
+</ul>
+<h3 id="函式宣告（Function-Declaration）"><a href="#函式宣告（Function-Declaration）" class="headerlink" title="函式宣告（Function Declaration）"></a>函式宣告（Function Declaration）</h3><p>「函式宣告」應該是屬於最常見的用法：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> 名稱([參數]) &#123;</span><br><span class="line">  <span class="comment">// 做某事</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">square</span>(<span class="params">number</span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> number * number;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="函式運算式（Function-Expressions）"><a href="#函式運算式（Function-Expressions）" class="headerlink" title="函式運算式（Function Expressions）"></a>函式運算式（Function Expressions）</h3><p>透過 <strong>變數名稱 &#x3D; function([參數]){ … };</strong> 的方式，將一個函式透過 <code>=</code> 指定給某個變數。</p>
+<p>像這樣:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> square = <span class="keyword">function</span> (<span class="params">number</span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>( <span class="keyword">typeof</span> square );   <span class="comment">// &quot;function&quot;</span></span><br><span class="line">  <span class="keyword">return</span> number * number;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<h4 id="沒有名字的函式？"><a href="#沒有名字的函式？" class="headerlink" title="沒有名字的函式？"></a>沒有名字的函式？</h4><p>在範例裡 &#x3D; 後面的 function 是「沒有名字」的<br>像這類沒有名字的函式在 JavaScript 是合法的，通常我們會稱它為「匿名函式」。</p>
+</blockquote>
+<blockquote>
+<p>在「匿名函式」的函式運算式情況下，你還是可以透過自定義的變數名稱取得 function，沒有一定要替這個函式取名的理由</p>
+</blockquote>
+<h4 id="在函式運算式中，如果想要在-function-後面加上一個名字是可以的嗎？"><a href="#在函式運算式中，如果想要在-function-後面加上一個名字是可以的嗎？" class="headerlink" title="在函式運算式中，如果想要在 function 後面加上一個名字是可以的嗎？"></a>在函式運算式中，如果想要在 function 後面加上一個名字是可以的嗎？</h4><p>可以，像這樣：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> square = <span class="keyword">function</span> <span class="title function_">func</span>(<span class="params">number</span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> number * number;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>但是要注意的是，這個名字只在「自己函式的區塊內」有效</p>
+</blockquote>
+<p>也就是說：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> square = <span class="keyword">function</span> <span class="title function_">func</span>(<span class="params">number</span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>( <span class="keyword">typeof</span> func );   <span class="comment">// &quot;function&quot;</span></span><br><span class="line">  <span class="keyword">return</span> number * number;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>( <span class="keyword">typeof</span> func );     <span class="comment">// undefined</span></span><br></pre></td></tr></table></figure>
+
+<p>像這樣，脫離了函式自身區塊後，變數 func 就不存在了。</p>
+<h3 id="透過-new-Function-關鍵字建立函式"><a href="#透過-new-Function-關鍵字建立函式" class="headerlink" title="透過 new Function 關鍵字建立函式"></a>透過 new Function 關鍵字建立函式</h3><p>直接使用 <strong>Function (注意 F 大寫)</strong> 這個關鍵字來建立函式物件。 使用時將參數與函式的內容依序傳入 Function，就可以建立一個函式物件了。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 透過 new 來建立 Function &quot;物件&quot;</span></span><br><span class="line"><span class="keyword">var</span> square = <span class="keyword">new</span> <span class="title class_">Function</span>(<span class="string">&#x27;number&#x27;</span>, <span class="string">&#x27;return number * number&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<p>透過 <strong>new Function</strong> 所建立的函式物件，每次執行時都會進行解析「字串」(如 <strong>‘return number * number’</strong> ) 的動作，運作效能較差，所以通常實務上也較少會這樣做。</p>
+<h2 id="變數的有效範圍-Scope"><a href="#變數的有效範圍-Scope" class="headerlink" title="變數的有效範圍 (Scope)"></a>變數的有效範圍 (Scope)</h2><p>終於要講到全域變數與區域變數的差異了。</p>
+<p>在 ES6 之前，JavaScript 變數有效範圍的最小單位是以 <strong>function</strong> 做分界的。 [註2]<br>什麼意思呢？ 讓我用簡單的範例來說明：</p>
+<blockquote>
+<p>[註2] ES6 之後有 let 與 const 分別定義「變數」與「常數」。 與 var 不同的是，它們的 scope 是透過大括號 { } 來切分的。</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> x = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> doSomeThing = <span class="keyword">function</span>(<span class="params">y</span>) &#123;</span><br><span class="line">  <span class="keyword">var</span> x = <span class="number">100</span>;</span><br><span class="line">  <span class="keyword">return</span> x + y;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>( <span class="title function_">doSomeThing</span>(<span class="number">50</span>) );   <span class="comment">// ?</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>( x );                 <span class="comment">// ?</span></span><br></pre></td></tr></table></figure>
+
+<p>猜猜看，這兩組 <strong>console.log()</strong> 分別會印出什麼？</p>
+<p>.<br>.<br>.</p>
+<p>答案是 <strong>150</strong> 與 <strong>1</strong>。</p>
+<p>由於函式 <strong>doSomeThing()</strong> 裡面再次定義了變數 <strong>x</strong>，所以當我們執行 <strong>doSomeThing(50)</strong> 時，會將 <strong>50</strong> 作為參數傳入 <strong>doSomeThing()</strong> 的 <strong>y</strong>，那麼 <strong>return x + y</strong> 的結果自然就是 <strong>100 + 50</strong> 的 <strong>150</strong> 了。</p>
+<p>那麼下一行再印出的 x 呢？ 為什麼是 1 而不是 100 ？<br>因為…</p>
+<p>「切分變數有效範圍的最小單位是 “function” 」<br>「切分變數有效範圍的最小單位是 “function” 」<br>「切分變數有效範圍的最小單位是 “function” 」</p>
+<p>很重要，所以要講三次。</p>
+<p>因為切分變數有效範圍的最小單位是 “function”，所以在函式區塊內透過 <strong>var</strong> 定義的 <strong>x</strong> 實際上只屬於這個函式。</p>
+<p>換句話說，<strong>外面的 x</strong> 跟 <strong>function 內的 x</strong> 其實是兩個不同的變數。</p>
+<p>因此在最後印出來的 console.log( x ); 自然就是外面的 x 也就是 1 了。</p>
+<p>所以我們說，變數有效範圍的最小單位是 “function”， 這個有效範圍我們通常稱它為「Scope」。</p>
+<hr>
+<p>那麼，如果 function 內部沒有 var x 呢？<br>很簡單，自己的 function 內如果找不到，就會一層層往外找，直到全域變數為止：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> x = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">var</span> doSomeThing = <span class="keyword">function</span>(<span class="params">y</span>) &#123;</span><br><span class="line">  <span class="comment">// 內部找不到 x 就會到外面找，直到全域變數為止。</span></span><br><span class="line">  <span class="comment">// 都沒有就會報錯：ReferenceError: x is not defined</span></span><br><span class="line">  <span class="keyword">return</span> x + y;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>( <span class="title function_">doSomeThing</span>(<span class="number">50</span>) );   <span class="comment">// 51</span></span><br></pre></td></tr></table></figure>
+
+<p>要注意的是， function 可以讀取外層已經宣告的變數，但外層拿不到裡面宣告的變數。</p>
+<p>沒有 var 宣告的變數很危險！<br>「沒有 var 宣告的變數很危險」什麼意思？</p>
+<p>來，稍微修改一下剛剛的範例，把 function 內的 var 拿掉：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> x = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> doSomeThing = <span class="keyword">function</span>(<span class="params">y</span>) &#123;</span><br><span class="line">  x = <span class="number">100</span>;</span><br><span class="line">  <span class="keyword">return</span> x + y;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>( <span class="title function_">doSomeThing</span>(<span class="number">50</span>) );   <span class="comment">// ?</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>( x );                 <span class="comment">// ?</span></span><br></pre></td></tr></table></figure>
+
+<p>猜猜看，這兩組 console.log() 分別會印出什麼？</p>
+<p>.<br>.<br>.</p>
+<p>答案是 <strong>150</strong> 與 <strong>100</strong>。</p>
+<p>先別急著崩潰，剛剛說過「切分變數有效範圍的最小單位是 “Function” 」對吧？<br>但這句話的前提是你得在 function 內部再次用 var 宣告這個變數，否則 JavaScript 會再往外層去找到同名的變數，直到最外層，也就是「全域變數」。</p>
+<p>換言之，由於在 function 內沒有重新宣告 x 變數，使得 x &#x3D; 100 跑去變更了外層的同名變數 x：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> doSomeThing = <span class="keyword">function</span>(<span class="params">y</span>) &#123;</span><br><span class="line">  x = <span class="number">100</span>;</span><br><span class="line">  <span class="keyword">return</span> x + y;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>導致在呼叫 doSomeThing(50) 之後再印出 x 的值自然就變成 100 囉。</p>
+<h2 id="宣告式-v-s-表達式：命名與-Hoisiting"><a href="#宣告式-v-s-表達式：命名與-Hoisiting" class="headerlink" title="宣告式 v.s. 表達式：命名與 Hoisiting"></a>宣告式 v.s. 表達式：命名與 Hoisiting</h2><blockquote>
+<ul>
+<li>陳述式：會執行一些程式碼，可能是幾個單詞或是一個片段（但不會是單一個字母），但最大的特徵是不會回傳結果。</li>
+<li>表達式：最大的特徵在於會回傳結果</li>
+</ul>
+</blockquote>
+<h3 id="函式的-name-屬性"><a href="#函式的-name-屬性" class="headerlink" title="函式的 name 屬性"></a>函式的 name 屬性</h3><p>對函式宣告式和具名函式表達式，name 屬性都有定義。對匿名函式表達式說，name 可能為 undefined 或空字串。<br>name 屬性也會用來遞迴呼叫自己，或是在除錯工具中顯示函式名稱，如果這兩種狀況都沒有需要，用不具名表達式會比較簡單也不囉唆。</p>
+<h3 id="函式的-Hoisting"><a href="#函式的-Hoisting" class="headerlink" title="函式的 Hoisting"></a>函式的 Hoisting</h3><p>這兩種定義方式最大的差別在於，透過「函式宣告」方式定義的函式可以在宣告前使用 (函式提升)：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">square</span>(<span class="number">2</span>);    <span class="comment">// 4</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">square</span>(<span class="params">number</span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> number * number;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>而透過「函式運算式」定義的函式則是會出現錯誤：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">square</span>(<span class="number">2</span>);    <span class="comment">// TypeError: square is not a function</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> square = <span class="keyword">function</span> (<span class="params">number</span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> number * number;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>與變數提升的差別在於變數提升<strong>只有宣告式被提升</strong>，而函式的提升則是包括內容完全被提升。 除了可呼叫的時機不同外，「函式宣告」與「函式運算式」在<strong>執行時期</strong>兩者無明顯差異。</p>
+<hr>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><p><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10191549">重新認識 JavaScript: Day 10 函式 Functions 的基本概念</a></p>
+<p><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10202443?sc=iThelpR">Day03：JavaScript 設計模式 第四章函式 筆記精要（上）</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>作者： </strong>Skyler Chou
+  </li>
+  <li class="post-copyright-link">
+      <strong>文章連結：</strong>
+      <a href="https://skylerchou.github.io/sklylerblog/2024/05/19/%E5%87%BD%E5%BC%8F%20Functions%20%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/" title="函式 Functions 的基本概念">https://skylerchou.github.io/sklylerblog/2024/05/19/函式 Functions 的基本概念/</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>版權聲明： </strong>本網誌所有文章除特別聲明外，均採用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 許可協議。轉載請註明出處！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/sklylerblog/tags/JavaScript/" rel="tag"># JavaScript</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+            </div>
+            <div class="post-nav-item">
+                <a href="/sklylerblog/2024/05/20/GoogleMap-Api-%E4%B8%B2%E6%8E%A5/" rel="next" title="GoogleMap Api 串接">
+                  GoogleMap Api 串接 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Skyler Chou</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+<script src="/sklylerblog/js/comments.js"></script><script src="/sklylerblog/js/utils.js"></script><script src="/sklylerblog/js/motion.js"></script><script src="/sklylerblog/js/sidebar.js"></script><script src="/sklylerblog/js/next-boot.js"></script><script src="/sklylerblog/js/pjax.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"sklylerblog","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/sklylerblog/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/sklylerblog/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/sklylerblog/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/sklylerblog/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/sklylerblog/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/sklylerblog/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"skylerchou.github.io","root":"/sklylerblog/","images":"/sklylerblog/images","scheme":"Gemini","darkmode":true,"version":"8.20.0","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/sklylerblog/js/config.js"></script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-C741HXHTCF"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-C741HXHTCF');
+</script>
+    <meta property="og:type" content="article">
+<meta property="og:title" content="網頁的另一個大腦 - Web worker">
+<meta property="og:url" content="https://skylerchou.github.io/sklylerblog/2024/10/16/%E7%B6%B2%E9%A0%81%E7%9A%84%E5%8F%A6%E4%B8%80%E5%80%8B%E5%A4%A7%E8%85%A6-Web-worker/index.html">
+<meta property="og:site_name" content="網頁開發五四三">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://skylerchou.github.io/sklylerblog/images/image.png">
+<meta property="og:image" content="https://skylerchou.github.io/sklylerblog/images/image-1.png">
+<meta property="og:image" content="https://skylerchou.github.io/sklylerblog/images/image-2.png">
+<meta property="article:published_time" content="2024-10-16T08:11:19.000Z">
+<meta property="article:modified_time" content="2024-10-16T08:17:41.038Z">
+<meta property="article:author" content="Skyler Chou">
+<meta property="article:tag" content="前端, 網頁開發, Vue, Nuxt, JavaScript, HTML, CSS, 非本科">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://skylerchou.github.io/sklylerblog/images/image.png">
+
+
+<link rel="canonical" href="https://skylerchou.github.io/sklylerblog/2024/10/16/%E7%B6%B2%E9%A0%81%E7%9A%84%E5%8F%A6%E4%B8%80%E5%80%8B%E5%A4%A7%E8%85%A6-Web-worker/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://skylerchou.github.io/sklylerblog/2024/10/16/%E7%B6%B2%E9%A0%81%E7%9A%84%E5%8F%A6%E4%B8%80%E5%80%8B%E5%A4%A7%E8%85%A6-Web-worker/","path":"2024/10/16/網頁的另一個大腦-Web-worker/","title":"網頁的另一個大腦 - Web worker"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>網頁的另一個大腦 - Web worker | 網頁開發五四三 - Skyler's  blog</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-C741HXHTCF"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-C741HXHTCF","only_pageview":false,"measure_protocol_api_secret":null}</script>
+  <script src="/sklylerblog/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/sklylerblog/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/sklylerblog/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">網頁開發五四三</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Skyler's  blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/sklylerblog/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/sklylerblog/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%AC%E7%AF%84%E4%BE%8B%E7%9A%84-Event-model-for-web-workers"><span class="nav-number">1.</span> <span class="nav-text">本範例的 Event model for web workers</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#worker-fibonacci"><span class="nav-number">1.1.</span> <span class="nav-text">worker_fibonacci</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#worker-heavyTask"><span class="nav-number">1.2.</span> <span class="nav-text">worker_heavyTask</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#worker1-Web-Workers-API"><span class="nav-number">2.</span> <span class="nav-text">worker1 - Web Workers API</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#worker2-VueUse-useWebWorker"><span class="nav-number">3.</span> <span class="nav-text">worker2 - VueUse - useWebWorker</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#worker3-VueUse-useWebWorkerFn"><span class="nav-number">4.</span> <span class="nav-text">worker3 - VueUse - useWebWorkerFn</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Demo"><span class="nav-number">5.</span> <span class="nav-text">Demo</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A3%9C%E5%85%85"><span class="nav-number">6.</span> <span class="nav-text">補充</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99-reference"><span class="nav-number">7.</span> <span class="nav-text">參考資料 reference</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Skyler Chou"
+      src="/sklylerblog/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Skyler Chou</p>
+  <div class="site-description" itemprop="description">非本科轉職，擁有4年前端開發經驗，這是我的技術筆記</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/sklylerblog/archives/">
+          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/sklylerblog/categories/">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/sklylerblog/tags/">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://www.linkedin.com/in/skylerchou/" title="Linkedin → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;skylerchou&#x2F;" rel="noopener me" target="_blank"><i class="fab fa-linkedin fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/SkylerChou" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;SkylerChou" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+  </div>
+  <div class="cc-license animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdnjs.cloudflare.com/ajax/libs/creativecommons-vocabulary/2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
+  </div>
+
+        </div>
+      </div>
+        <div class="back-to-top animated" role="button" aria-label="回到頂端">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+
+    
+        <div class="pjax">
+        </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://skylerchou.github.io/sklylerblog/2024/10/16/%E7%B6%B2%E9%A0%81%E7%9A%84%E5%8F%A6%E4%B8%80%E5%80%8B%E5%A4%A7%E8%85%A6-Web-worker/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/sklylerblog/images/avatar.jpg">
+      <meta itemprop="name" content="Skyler Chou">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="網頁開發五四三">
+      <meta itemprop="description" content="非本科轉職，擁有4年前端開發經驗，這是我的技術筆記">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="網頁的另一個大腦 - Web worker | 網頁開發五四三">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          網頁的另一個大腦 - Web worker
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2024-10-16 16:11:19 / 修改時間：16:17:41" itemprop="dateCreated datePublished" datetime="2024-10-16T16:11:19+08:00">2024-10-16</time>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/sklylerblog/2024/10/16/%E7%B6%B2%E9%A0%81%E7%9A%84%E5%8F%A6%E4%B8%80%E5%80%8B%E5%A4%A7%E8%85%A6-Web-worker/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2024/10/16/網頁的另一個大腦-Web-worker/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="文章字數">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">文章字數：</span>
+      <span>674</span>
+    </span>
+    <span class="post-meta-item" title="所需閱讀時間">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">所需閱讀時間 &asymp;</span>
+      <span>1 分鐘</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p><img src="/sklylerblog/images/image.png" alt="alt text"></p>
+ <span id="more"></span>
+
+<p>JavaScript 通常在作業系統的 Main Thread 執行，但若把程式碼放在 Web Workers 就可另闢戰場-Worker Thread，兩條線互不影響，讓 JavaScript 在背景執行，並且兩線可由訊息溝通-使用 postMessage 發送訊息、onmessage 接收訊息。</p>
+<p>通常我們會將需要長時間運算且不含 Window 或 DOM Element 操作的程式碼放在 Web Workers，好處是不阻塞 Main Thread 而讓速度變快。</p>
+<h2 id="本範例的-Event-model-for-web-workers"><a href="#本範例的-Event-model-for-web-workers" class="headerlink" title="本範例的 Event model for web workers"></a>本範例的 Event model for web workers</h2><h3 id="worker-fibonacci"><a href="#worker-fibonacci" class="headerlink" title="worker_fibonacci"></a>worker_fibonacci</h3><p><img src="/sklylerblog/images/image-1.png" alt="alt text"></p>
+<h3 id="worker-heavyTask"><a href="#worker-heavyTask" class="headerlink" title="worker_heavyTask"></a>worker_heavyTask</h3><p><img src="/sklylerblog/images/image-2.png" alt="alt text"></p>
+<h2 id="worker1-Web-Workers-API"><a href="#worker1-Web-Workers-API" class="headerlink" title="worker1 - Web Workers API"></a>worker1 - Web Workers API</h2><p>使用 web API 來實作</p>
+<p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API">MDN-Web Workers API</a></p>
+<h2 id="worker2-VueUse-useWebWorker"><a href="#worker2-VueUse-useWebWorker" class="headerlink" title="worker2 - VueUse - useWebWorker"></a>worker2 - VueUse - useWebWorker</h2><p>用起來跟用 web API 很像，只是多封裝成方法</p>
+<p><a target="_blank" rel="noopener" href="https://vueuse.org/core/useWebWorker/">VueUse - useWebWorker</a></p>
+<h2 id="worker3-VueUse-useWebWorkerFn"><a href="#worker3-VueUse-useWebWorkerFn" class="headerlink" title="worker3 - VueUse - useWebWorkerFn"></a>worker3 - VueUse - useWebWorkerFn</h2><p>封裝成更好用的方法，也是三種裡最簡化的寫法，也有狀態可以使用，<br>worker terminate 之後也不會有 worker1、worker2 的問題 (無法再次使用)<br>官方的例子看起來跟 comlink 差不多</p>
+<p><a target="_blank" rel="noopener" href="https://vueuse.org/core/useWebWorkerFn/">VueUse - useWebWorkerFn</a></p>
+<h2 id="Demo"><a href="#Demo" class="headerlink" title="Demo"></a>Demo</h2><p><a target="_blank" rel="noopener" href="https://github.com/SkylerChou/webworker">GitHub</a></p>
+<h2 id="補充"><a href="#補充" class="headerlink" title="補充"></a>補充</h2><p>這邊使用 postMessage、onmessage 來傳遞資料<br>也許之後可以用 <a target="_blank" rel="noopener" href="https://github.com/GoogleChromeLabs/comlink">comlink</a> 寫寫看，看<a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10337926">鐵人賽</a> 感覺可以更方便，只是看起來只能搭配 Web Workers API</p>
+<hr>
+<h2 id="參考資料-reference"><a href="#參考資料-reference" class="headerlink" title="參考資料 reference"></a>參考資料 reference</h2><p><a target="_blank" rel="noopener" href="https://www.cythilya.tw/2018/07/18/web-workers/">Web Workers</a></p>
+<p><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10337926">封裝 Web worker 的套件 - Comlink</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>作者： </strong>Skyler Chou
+  </li>
+  <li class="post-copyright-link">
+      <strong>文章連結：</strong>
+      <a href="https://skylerchou.github.io/sklylerblog/2024/10/16/%E7%B6%B2%E9%A0%81%E7%9A%84%E5%8F%A6%E4%B8%80%E5%80%8B%E5%A4%A7%E8%85%A6-Web-worker/" title="網頁的另一個大腦 - Web worker">https://skylerchou.github.io/sklylerblog/2024/10/16/網頁的另一個大腦-Web-worker/</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>版權聲明： </strong>本網誌所有文章除特別聲明外，均採用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 許可協議。轉載請註明出處！
+  </li>
+</ul>
+</div>
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/sklylerblog/2024/10/16/TypeScrip-%E5%9F%BA%E7%A4%8E%E8%88%87%E9%80%B2%E9%9A%8E%E6%A6%82%E5%BF%B5-Part-2/" rel="prev" title="TypeScrip 基礎與進階概念_Part 2">
+                  <i class="fa fa-angle-left"></i> TypeScrip 基礎與進階概念_Part 2
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Skyler Chou</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+<script src="/sklylerblog/js/comments.js"></script><script src="/sklylerblog/js/utils.js"></script><script src="/sklylerblog/js/motion.js"></script><script src="/sklylerblog/js/sidebar.js"></script><script src="/sklylerblog/js/next-boot.js"></script><script src="/sklylerblog/js/pjax.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"sklylerblog","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/sklylerblog/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>
